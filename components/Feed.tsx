@@ -1,6 +1,9 @@
+"use client";
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button'
-import { Children, ReactNode } from 'react';
+import Link from 'next/link';
+import { ReactNode, useEffect, useRef } from 'react';
 
 export function ScrollFeedItem({ image, title }: {image: string, title: string}): ReactNode{
   return (
@@ -16,22 +19,39 @@ export function ScrollFeedItem({ image, title }: {image: string, title: string})
     </div>
   );
 }
-export function ScrollFeedProtraitItem({trendnumber,badgename, image}: {trendnumber?: Number, badgename?: String, image:string}): ReactNode{
+export function ScrollFeedProtraitItem({trendnumber, badgename, image, url}: {trendnumber?: Number, badgename?: String, image:string, url: string}): ReactNode{
+
+  let ref = useRef(null);
+
+  useEffect(()=>{
+    let img = new Image();
+    img.src = "https://image.tmdb.org/t/p/w500/"+image;
+    let target: HTMLDivElement | null = ref.current;
+    img.onload = function(){
+      target!.style.backgroundImage = `url(${img.src})`;
+      target!.style.filter = `blur(0)`;
+    }
+  }, []);
+
   return (
-    <div
-      style={{
-        backgroundImage: `url('${image}')`,
-        backgroundSize: 'cover'
-      }} 
-      className="movie-slide relative snap-center shrink-0 aspect-[2/3] w-32 md:w-48 bg-gray-700 rounded-md group">
-      { trendnumber && (<div className="number absolute bottom-0 -mx-4 md:-mx-6 -my-2 text-7xl md:text-8xl font-black drop-shadow-lg">{trendnumber.toString()}</div>) }
-      { badgename && (<div className="badge absolute bottom-0 md:mb-4 inline-flex justify-center items-center mb-2 drop-shadow-lg w-full capitalize"><Badge className="rounded-lg" variant={"secondary"}>{badgename}</Badge></div>) }
-      <div 
+    <Link href={url}>
+      <div
+        style={{
+          backgroundImage: `url('${"https://image.tmdb.org/t/p/w200/" + image}')`,
+          backgroundSize: 'cover',
+          filter: `blur(1px)`
+        }}
+        ref={ref}
+        className="movie-slide transition-all relative snap-center shrink-0 aspect-[2/3] w-32 md:w-48 bg-gray-700 rounded-md group">
         
-        className="badge absolute bottom-0 inline-flex justify-center items-center mb-2 md:mb-4 drop-shadow-lg w-full capitalize">
-        <Button className="translate-y-[150%] scale-0 transition-all group-hover:translate-y-0 group-hover:scale-100" type="button" variant={"secondary"} size={"sm"}>Watch Now</Button>
+        { trendnumber && (<div className="number absolute bottom-0 -mx-4 md:-mx-6 -my-2 text-7xl md:text-8xl font-black drop-shadow-lg">{trendnumber.toString()}</div>) }
+        { badgename && (<div className="badge absolute bottom-0 md:mb-4 inline-flex justify-center items-center mb-2 drop-shadow-lg w-full capitalize"><Badge className="rounded-lg" variant={"secondary"}>{badgename}</Badge></div>) }
+        <div
+          className="badge absolute bottom-0 inline-flex justify-center items-center mb-2 md:mb-4 drop-shadow-lg w-full capitalize">
+          <Button className="translate-y-[150%] scale-0 transition-all group-hover:translate-y-0 group-hover:scale-100" type="button" variant={"secondary"} size={"sm"}>Watch Now</Button>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
