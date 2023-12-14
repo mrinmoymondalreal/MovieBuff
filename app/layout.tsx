@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import SideNav from "@/components/SideNav"
+import './anim.css'
 import { cn } from '@/lib/utils'
-import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,10 +18,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "min-h-screen overflow-x-hidden bg-primary md:pb-0 pb-20 first:mt-0 space-y-12")}>
+      <body className={cn(inter.className, "min-h-screen overflow-x-hidden top-0 bg-primary md:pb-0 pb-20 first:mt-0 space-y-12")}>
         {children}
-        <SideNav />
-        <Footer/>
       </body>
     </html>
   )
