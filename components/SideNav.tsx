@@ -4,7 +4,9 @@ import { HomeIcon, SearchIcon, Clapperboard, Tv } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ReactNode } from "react";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
+import { useLocalStorage } from "@/hooks/localStorage";
+import { LoadingScreen } from "./Loading";
 
 function SideNavButton({ isActive, title, children, link }: { isActive: boolean, title: string, link: string | Array<string>, children: ReactNode }){
   let pathname = usePathname();
@@ -22,7 +24,14 @@ function SideNavButton({ isActive, title, children, link }: { isActive: boolean,
 }
 
 export default function SideNav(){
-  return (
+
+  let { storage, isLoaded } = useLocalStorage();
+
+  if(isLoaded){
+    !storage?.getItem("setup") && redirect("/setup");
+  }
+
+  return !isLoaded ? <LoadingScreen/> : (
     <div className="navbar border-0 
       md:w-16 md:h-screen h-16 w-full
       fixed md:left-0 bottom-0 z-50
