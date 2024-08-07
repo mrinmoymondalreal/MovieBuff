@@ -101,14 +101,16 @@ export default function Page({ params }: { params: { movie_id: string } }) {
                 <div className="tagline">{data?.tagline!}</div>
               </div>
               <div className="genre text-md font-semibold">
-                {Array.isArray(data?.genres) &&
+                {data.genres &&
+                  Array.isArray(data?.genres) &&
                   data?.genres!.map((e: any) => e.name).join(" | ")}
               </div>
               <div className="text-md">
                 {data?.status!} <span className="text-muted-foreground">•</span>{" "}
                 {data?.runtime!}m{" "}
                 <span className="text-muted-foreground">•</span>{" "}
-                {Array.isArray(data?.production_countries) &&
+                {data.production_countries &&
+                  Array.isArray(data?.production_countries) &&
                   data?.production_countries![0].name}{" "}
                 <span className="text-muted-foreground">•</span>{" "}
                 {Array.isArray(data?.spoken_languages) &&
@@ -174,7 +176,8 @@ export default function Page({ params }: { params: { movie_id: string } }) {
               <div className="flex flex-col px-2">
                 <div className="font-semibold">Production Companies: </div>
                 <div className="">
-                  {Array.isArray(data?.production_companies) &&
+                  {data.production_companies &&
+                    Array.isArray(data?.production_companies) &&
                     data?.production_companies!.map((e: any) => {
                       return (
                         <div key={e.name}>
