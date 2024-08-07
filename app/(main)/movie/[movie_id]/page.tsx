@@ -62,10 +62,12 @@ export default function Page({ params }: { params: { movie_id: string } }) {
       });
   }, []);
 
+  console.log(data?.genres.map((e: any) => e.name).join(" | "));
+
   return isLoading ? (
     <LoadingScreen />
   ) : (
-    data && (
+    data && data.genres && (
       <div className="space-y-4">
         <div
           style={{
@@ -103,7 +105,7 @@ export default function Page({ params }: { params: { movie_id: string } }) {
               <div className="genre text-md font-semibold">
                 {data.genres &&
                   Array.isArray(data?.genres) &&
-                  data?.genres!.map((e: any) => e.name).join(" | ")}
+                  data?.genres.map((e: any) => e.name).join(" | ")}
               </div>
               <div className="text-md">
                 {data?.status!} <span className="text-muted-foreground">•</span>{" "}
@@ -162,8 +164,8 @@ export default function Page({ params }: { params: { movie_id: string } }) {
               <div className="flex flex-col">
                 <div className="title font-semibold">Languages</div>
                 <div className="data">
-                  {data
-                    ?.spoken_languages!.map((e: any) => e.english_name)
+                  {data?.spoken_languages
+                    .map((e: any) => e.english_name)
                     .join(",")}
                 </div>
               </div>
@@ -178,7 +180,7 @@ export default function Page({ params }: { params: { movie_id: string } }) {
                 <div className="">
                   {data.production_companies &&
                     Array.isArray(data?.production_companies) &&
-                    data?.production_companies!.map((e: any) => {
+                    data?.production_companies.map((e: any) => {
                       return (
                         <div key={e.name}>
                           {e.name}{" "}
@@ -191,9 +193,7 @@ export default function Page({ params }: { params: { movie_id: string } }) {
               <div className="flex flex-col px-2">
                 <div className="font-semibold">Production Companies: </div>
                 <div className="">
-                  {data
-                    ?.production_countries!.map((e: any) => e.name)
-                    .join(",")}
+                  {data?.production_countries.map((e: any) => e.name).join(",")}
                 </div>
               </div>
             </div>
