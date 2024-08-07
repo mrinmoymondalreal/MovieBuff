@@ -101,15 +101,18 @@ export default function Page({ params }: { params: { movie_id: string } }) {
                 <div className="tagline">{data?.tagline!}</div>
               </div>
               <div className="genre text-md font-semibold">
-                {data?.genres!.map((e: any) => e.name).join(" | ")}
+                {Array.isArray(data?.genres) &&
+                  data?.genres!.map((e: any) => e.name).join(" | ")}
               </div>
               <div className="text-md">
                 {data?.status!} <span className="text-muted-foreground">•</span>{" "}
                 {data?.runtime!}m{" "}
                 <span className="text-muted-foreground">•</span>{" "}
-                {data?.production_countries![0].name}{" "}
+                {Array.isArray(data?.production_countries) &&
+                  data?.production_countries![0].name}{" "}
                 <span className="text-muted-foreground">•</span>{" "}
-                {data?.spoken_languages![0].english_name}
+                {Array.isArray(data?.spoken_languages) &&
+                  data?.spoken_languages![0].english_name}
               </div>
               <div className="overview">
                 <Star size={15} className="inline -mt-1" />{" "}
@@ -171,14 +174,15 @@ export default function Page({ params }: { params: { movie_id: string } }) {
               <div className="flex flex-col px-2">
                 <div className="font-semibold">Production Companies: </div>
                 <div className="">
-                  {data?.production_companies!.map((e: any) => {
-                    return (
-                      <div key={e.name}>
-                        {e.name}{" "}
-                        {e.origin_country && "from " + e.origin_country}
-                      </div>
-                    );
-                  })}
+                  {Array.isArray(data?.production_companies) &&
+                    data?.production_companies!.map((e: any) => {
+                      return (
+                        <div key={e.name}>
+                          {e.name}{" "}
+                          {e.origin_country && "from " + e.origin_country}
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
               <div className="flex flex-col px-2">
